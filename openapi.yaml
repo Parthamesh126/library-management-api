@@ -1,0 +1,486 @@
+openapi: 3.1.0
+info:
+  title: Library Management API
+  description: "REST API for managing authors, books, members, and borrowing records."
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/members/{id}:
+    get:
+      tags:
+      - member-controller
+      operationId: findById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MemberResponse"
+    put:
+      tags:
+      - member-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MemberResponse"
+  /api/borrows/{id}/return:
+    put:
+      tags:
+      - borrow-controller
+      operationId: returnBook
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BorrowResponse"
+  /api/books/{id}:
+    get:
+      tags:
+      - book-controller
+      operationId: findById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+    put:
+      tags:
+      - book-controller
+      operationId: update_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+    delete:
+      tags:
+      - book-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: No Content
+  /api/authors/{id}:
+    get:
+      tags:
+      - author-controller
+      operationId: findById_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthorResponse"
+    put:
+      tags:
+      - author-controller
+      operationId: update_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthorResponse"
+  /api/members:
+    get:
+      tags:
+      - member-controller
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MemberResponse"
+    post:
+      tags:
+      - member-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MemberResponse"
+  /api/borrows:
+    post:
+      tags:
+      - borrow-controller
+      operationId: borrowBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BorrowRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BorrowResponse"
+  /api/books:
+    get:
+      tags:
+      - book-controller
+      operationId: findAll_1
+      parameters:
+      - name: available
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookResponse"
+    post:
+      tags:
+      - book-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+  /api/authors:
+    get:
+      tags:
+      - author-controller
+      operationId: findAll_2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AuthorResponse"
+    post:
+      tags:
+      - author-controller
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthorResponse"
+  /api/members/{id}/borrows:
+    get:
+      tags:
+      - member-controller
+      operationId: getBorrowHistory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BorrowResponse"
+  /api/info:
+    get:
+      tags:
+      - info-controller
+      operationId: getInfo
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApplicationInfoResponse"
+  /api/borrows/members/{memberId}/history:
+    get:
+      tags:
+      - borrow-controller
+      operationId: getMemberHistory
+      parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BorrowResponse"
+components:
+  schemas:
+    MemberRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 0
+        email:
+          type: string
+          format: email
+          maxLength: 150
+          minLength: 0
+        phone:
+          type: string
+          maxLength: 20
+          minLength: 0
+      required:
+      - email
+      - name
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    BorrowResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        bookId:
+          type: integer
+          format: int64
+        bookTitle:
+          type: string
+        memberId:
+          type: integer
+          format: int64
+        memberName:
+          type: string
+        borrowedAt:
+          type: string
+          format: date
+        dueDate:
+          type: string
+          format: date
+        returnedAt:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - RETURNED
+          - OVERDUE
+    BookRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 0
+        isbn:
+          type: string
+          maxLength: 20
+          minLength: 0
+        authorId:
+          type: integer
+          format: int64
+      required:
+      - authorId
+      - isbn
+      - title
+    BookResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        isbn:
+          type: string
+        available:
+          type: boolean
+        authorId:
+          type: integer
+          format: int64
+        authorName:
+          type: string
+    AuthorRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 0
+        email:
+          type: string
+          format: email
+          maxLength: 150
+          minLength: 0
+      required:
+      - name
+    AuthorResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+    BorrowRequest:
+      type: object
+      properties:
+        bookId:
+          type: integer
+          format: int64
+          minimum: 0
+        memberId:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - bookId
+      - memberId
+    ApplicationInfoResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
