@@ -51,7 +51,7 @@ library.max-active-borrows-per-member=5
 Clone the repository:
 
 ```bash
-git clone <YOUR_PUBLIC_GITHUB_REPOSITORY_URL>
+git clone https://github.com/Parthamesh126/library-management-api.git
 cd library-management-api
 ```
 
